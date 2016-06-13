@@ -13,7 +13,7 @@ import rx.Scheduler;
  */
 public class Repository {
 
-    public static String BASE_POINT = "http://220.119.249.201/_project/elib/";
+    public static String BASE_POINT = "http://qwildz.ngrok.io/_project/elib/";
     public static String END_POINT = BASE_POINT + "app_json/";
     public static String MEDIA_POINT = BASE_POINT + "media/";
 

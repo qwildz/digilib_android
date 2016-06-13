@@ -15,12 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.qwildz.digitallibrary.adapters.ViewPagerAdapter;
-import com.qwildz.digitallibrary.fragments.BookListFragment;
+import com.qwildz.digitallibrary.fragments.ListBookFragment;
 import com.qwildz.digitallibrary.fragments.ListAlbumFragment;
-import com.qwildz.digitallibrary.injector.components.InjectorComponent;
-import com.qwildz.digitallibrary.models.Repository;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         mPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mPagerAdapter.addFragment(BookListFragment.newInstance(), null);
+        mPagerAdapter.addFragment(ListBookFragment.newInstance(), null);
         mPagerAdapter.addFragment(ListAlbumFragment.newInstance(), null);
         mPagerAdapter.addFragment(ListAlbumFragment.newInstance(), null);
 

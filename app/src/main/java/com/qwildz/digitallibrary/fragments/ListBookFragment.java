@@ -8,11 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.qwildz.digitallibrary.Album;
 import com.qwildz.digitallibrary.MyApplication;
 import com.qwildz.digitallibrary.R;
-import com.qwildz.digitallibrary.adapters.BookListAdapter;
-import com.qwildz.digitallibrary.adapters.ListAlbumsAdapter;
+import com.qwildz.digitallibrary.adapters.recyclerview.ListBookAdapter;
 import com.qwildz.digitallibrary.injector.components.DaggerInjectorComponent;
 import com.qwildz.digitallibrary.injector.components.InjectorComponent;
 import com.qwildz.digitallibrary.models.Book;
@@ -28,11 +26,11 @@ import javax.inject.Inject;
 /**
  * Created by resna on 2016-06-12.
  */
-public class BookListFragment extends Fragment {
+public class ListBookFragment extends Fragment {
 
     AutofitRecyclerView recyclerView;
 
-    private BookListAdapter adapter;
+    private ListBookAdapter adapter;
     private List<Book> dataList;
 
     @Inject
@@ -42,13 +40,13 @@ public class BookListFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public BookListFragment() {
+    public ListBookFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static BookListFragment newInstance() {
-        BookListFragment fragment = new BookListFragment();
+    public static ListBookFragment newInstance() {
+        ListBookFragment fragment = new ListBookFragment();
         return fragment;
     }
 
@@ -69,13 +67,13 @@ public class BookListFragment extends Fragment {
         });
 
         dataList = new ArrayList<>();
-        adapter = new BookListAdapter(getContext(), dataList);
+        adapter = new ListBookAdapter(getContext(), dataList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_book, container, false);
 
         // Set the adapter
         if (view instanceof AutofitRecyclerView) {

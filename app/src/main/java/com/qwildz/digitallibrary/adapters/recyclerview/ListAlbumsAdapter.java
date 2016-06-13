@@ -1,17 +1,12 @@
-package com.qwildz.digitallibrary.adapters;
+package com.qwildz.digitallibrary.adapters.recyclerview;
 
 import android.content.Context;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qwildz.digitallibrary.Album;
@@ -38,7 +33,7 @@ public class ListAlbumsAdapter extends RecyclerView.Adapter<ListAlbumsAdapter.My
         @BindView(R.id.title)
         public TextView title;
 
-        @BindView(R.id.count)
+        @BindView(R.id.description)
         public TextView count;
 
         @BindView(R.id.thumbnail)
@@ -59,7 +54,7 @@ public class ListAlbumsAdapter extends RecyclerView.Adapter<ListAlbumsAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.album_card, parent, false);
+                .inflate(R.layout.cardview_big_thumbnail, parent, false);
 
         return new MyViewHolder(itemView);
     }

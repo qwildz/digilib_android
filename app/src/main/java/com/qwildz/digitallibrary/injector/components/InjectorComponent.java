@@ -1,7 +1,8 @@
 package com.qwildz.digitallibrary.injector.components;
 
 import com.qwildz.digitallibrary.MainActivity;
-import com.qwildz.digitallibrary.fragments.BookListFragment;
+import com.qwildz.digitallibrary.fragments.ListBookFragment;
+import com.qwildz.digitallibrary.fragments.ListVideoFragment;
 import com.qwildz.digitallibrary.injector.scopes.Activity;
 
 import dagger.Component;
@@ -16,6 +17,7 @@ public interface InjectorComponent {
     void inject(MainActivity activity);
 
 
-    void inject(BookListFragment fragment);
+    void inject(ListBookFragment fragment);
 
+    void inject(ListVideoFragment listVideoFragment);
 }
