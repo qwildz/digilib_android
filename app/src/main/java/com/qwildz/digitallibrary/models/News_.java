@@ -84,7 +84,7 @@ public class News_ {
      *     The gambar
      */
     public String getGambar() {
-        return gambar;
+        return Repository.MEDIA_POINT + "news/" +  gambar;
     }
 
     /**

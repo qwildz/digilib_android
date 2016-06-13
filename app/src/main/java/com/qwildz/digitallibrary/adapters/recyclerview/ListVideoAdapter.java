@@ -39,7 +39,6 @@ public class ListVideoAdapter extends RecyclerViewAdapter<Video, ListVideoAdapte
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Video video = list.get(position);
         holder.title.setText(video.getJudul());
-        holder.count.setVisibility(View.GONE);
 
         // loading album cover using Glide library
         Glide.with(mContext).load(video.getGambar()).into(holder.thumbnail);
@@ -50,7 +49,7 @@ public class ListVideoAdapter extends RecyclerViewAdapter<Video, ListVideoAdapte
         public TextView title;
 
         @BindView(R.id.description)
-        public TextView count;
+        public TextView description;
 
         @BindView(R.id.thumbnail)
         public AspectRatioImageView thumbnail;
@@ -58,6 +57,10 @@ public class ListVideoAdapter extends RecyclerViewAdapter<Video, ListVideoAdapte
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+
+            description.setVisibility(View.GONE);
+            thumbnail.setAspectRatioEnabled(true);
+            thumbnail.setAspectRatio((float) 9/16);
         }
     }
 }

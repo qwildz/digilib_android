@@ -28,4 +28,5 @@
     <dimen name="cardview_multi_column_width">170dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="cardview_big_description_margin_top">10dp</dimen>
 </resources>

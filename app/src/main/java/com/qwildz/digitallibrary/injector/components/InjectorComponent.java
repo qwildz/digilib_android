@@ -2,6 +2,7 @@ package com.qwildz.digitallibrary.injector.components;
 
 import com.qwildz.digitallibrary.MainActivity;
 import com.qwildz.digitallibrary.fragments.ListBookFragment;
+import com.qwildz.digitallibrary.fragments.ListNewsFragment;
 import com.qwildz.digitallibrary.fragments.ListVideoFragment;
 import com.qwildz.digitallibrary.injector.scopes.Activity;
 
@@ -20,4 +21,6 @@ public interface InjectorComponent {
     void inject(ListBookFragment fragment);
 
     void inject(ListVideoFragment listVideoFragment);
+
+    void inject(ListNewsFragment listNewsFragment);
 }

@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 
 import com.qwildz.digitallibrary.MyApplication;
 import com.qwildz.digitallibrary.R;
-import com.qwildz.digitallibrary.adapters.recyclerview.ListBookAdapter;
+import com.qwildz.digitallibrary.adapters.recyclerview.ListNewsAdapter;
 import com.qwildz.digitallibrary.adapters.recyclerview.ListVideoAdapter;
 import com.qwildz.digitallibrary.injector.components.DaggerInjectorComponent;
 import com.qwildz.digitallibrary.injector.components.InjectorComponent;
-import com.qwildz.digitallibrary.models.Book;
+import com.qwildz.digitallibrary.models.News_;
 import com.qwildz.digitallibrary.models.Repository;
 import com.qwildz.digitallibrary.models.Video;
 import com.qwildz.digitallibrary.ui.AutofitRecyclerView;
@@ -27,12 +27,12 @@ import javax.inject.Inject;
 /**
  * Created by resna on 2016-06-12.
  */
-public class ListVideoFragment extends Fragment {
+public class ListNewsFragment extends Fragment {
 
     AutofitRecyclerView recyclerView;
 
-    private ListVideoAdapter adapter;
-    private List<Video> dataList;
+    private ListNewsAdapter adapter;
+    private List<News_> dataList;
 
     @Inject
     Repository repository;
@@ -41,13 +41,13 @@ public class ListVideoFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ListVideoFragment() {
+    public ListNewsFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ListVideoFragment newInstance() {
-        ListVideoFragment fragment = new ListVideoFragment();
+    public static ListNewsFragment newInstance() {
+        ListNewsFragment fragment = new ListNewsFragment();
         return fragment;
     }
 
@@ -62,19 +62,19 @@ public class ListVideoFragment extends Fragment {
 
         injectorComponent.inject(this);
 
-        repository.getVideo().subscribe(videos -> {
-            dataList.addAll(videos.getVideos());
+        repository.getNews().subscribe(news -> {
+            dataList.addAll(news.getNews());
             adapter.notifyDataSetChanged();
         });
 
         dataList = new ArrayList<>();
-        adapter = new ListVideoAdapter(getContext(), dataList);
+        adapter = new ListNewsAdapter(getContext(), dataList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list_video, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_news, container, false);
 
         // Set the adapter
         if (view instanceof AutofitRecyclerView) {

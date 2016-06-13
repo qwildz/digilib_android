@@ -16,7 +16,8 @@ import android.view.MenuItem;
 
 import com.qwildz.digitallibrary.adapters.ViewPagerAdapter;
 import com.qwildz.digitallibrary.fragments.ListBookFragment;
-import com.qwildz.digitallibrary.fragments.ListAlbumFragment;
+import com.qwildz.digitallibrary.fragments.ListNewsFragment;
+import com.qwildz.digitallibrary.fragments.ListVideoFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,8 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         mPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mPagerAdapter.addFragment(ListBookFragment.newInstance(), null);
-        mPagerAdapter.addFragment(ListAlbumFragment.newInstance(), null);
-        mPagerAdapter.addFragment(ListAlbumFragment.newInstance(), null);
+        mPagerAdapter.addFragment(ListVideoFragment.newInstance(), null);
+        mPagerAdapter.addFragment(ListNewsFragment.newInstance(), null);
 
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
