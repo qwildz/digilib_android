@@ -2,24 +2,25 @@ package com.qwildz.digitallibrary;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.qwildz.digitallibrary.adapters.ViewPagerAdapter;
+import com.qwildz.digitallibrary.fragments.BookListFragment;
+import com.qwildz.digitallibrary.fragments.ListAlbumFragment;
+import com.qwildz.digitallibrary.injector.components.InjectorComponent;
+import com.qwildz.digitallibrary.models.Repository;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,13 +35,21 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.tabs) TabLayout mTabLayout;
     @BindView(R.id.tabs_viewpager) ViewPager mViewPager;
 
-    private CheesePagerAdapter mPagerAdapter;
+    private ViewPagerAdapter mPagerAdapter;
+
+ //   private FragmentComponent mFragmentComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        MyApplication application = (MyApplication) getApplication();
+//        mFragmentComponent = DaggerFragmentComponent.builder()
+//                .appComponent(application.getAppComponent())
+//                .activityModule(new ActivityModule(this))
+//                .build();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,11 +67,21 @@ public class MainActivity extends AppCompatActivity
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        mPagerAdapter = new CheesePagerAdapter();
-        mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter.addFragment(BookListFragment.newInstance(), null);
+        mPagerAdapter.addFragment(ListAlbumFragment.newInstance(), null);
+        mPagerAdapter.addFragment(ListAlbumFragment.newInstance(), null);
 
-        addTab();
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
+        mTabLayout.setupWithViewPager(mViewPager);
+        setupTabIcons();
+    }
+
+    private void setupTabIcons() {
+        mTabLayout.getTabAt(0).setIcon(R.drawable.tab_book);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.tab_video);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.tab_news);
     }
 
     @Override
@@ -119,76 +138,4 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void addTab() {
-        mPagerAdapter.addTab("ADA");
-        mPagerAdapter.addTab("KAMU");
-        mPagerAdapter.addTab("DIHATI");
-    }
-
-    private static class CheesePagerAdapter extends PagerAdapter {
-        private final ArrayList<CharSequence> mCheeses = new ArrayList<>();
-
-        public void addTab(String title) {
-            mCheeses.add(title);
-            notifyDataSetChanged();
-        }
-
-        public void removeTab() {
-            if (!mCheeses.isEmpty()) {
-                mCheeses.remove(mCheeses.size() - 1);
-                notifyDataSetChanged();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return mCheeses.size();
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            final Item item = (Item) object;
-            final int index = mCheeses.indexOf(item.cheese);
-            return index >= 0 ? index : POSITION_NONE;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            final TextView tv = new TextView(container.getContext());
-            tv.setText(getPageTitle(position));
-            tv.setGravity(Gravity.CENTER);
-            tv.setTextAppearance(tv.getContext(), R.style.TextAppearance_AppCompat_Title);
-            container.addView(tv, ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-
-            Item item = new Item();
-            item.cheese = mCheeses.get(position);
-            item.view = tv;
-            return item;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            final Item item = (Item) object;
-            return item.view == view;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mCheeses.get(position);
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            final Item item = (Item) object;
-            container.removeView(item.view);
-        }
-
-        private static class Item {
-            TextView view;
-            CharSequence cheese;
-        }
-    }
-
 }
