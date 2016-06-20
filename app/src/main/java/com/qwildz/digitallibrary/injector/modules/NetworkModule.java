@@ -1,9 +1,14 @@
 package com.qwildz.digitallibrary.injector.modules;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.qwildz.digitallibrary.injector.scopes.Application;
 import com.qwildz.digitallibrary.network.ApiInterceptor;
 import com.qwildz.digitallibrary.network.ApiInterface;
 
+import javax.inject.Named;
+
+import auto.parcelgson.gson.AutoParcelGsonTypeAdapterFactory;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -24,11 +29,11 @@ public class NetworkModule {
         this.uri = uri;
     }
 
-    @Application
-    @Provides
-    ApiInterceptor provideApiInterceptor() {
-        return new ApiInterceptor("0218fab2e24e70085b0faa085032ecd3", "6");
-    }
+//    @Application
+//    @Provides
+//    ApiInterceptor provideApiInterceptor() {
+//        return new ApiInterceptor("0218fab2e24e70085b0faa085032ecd3", "6");
+//    }
 
     @Application
     @Provides
@@ -49,9 +54,16 @@ public class NetworkModule {
 
     @Application
     @Provides
-    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+    @Named("GSON_PARCEABLE")
+    Gson provideGson() {
+        return new GsonBuilder().registerTypeAdapterFactory(new AutoParcelGsonTypeAdapterFactory()).create();
+    }
+
+    @Application
+    @Provides
+    Retrofit provideRetrofit(OkHttpClient okHttpClient, @Named("GSON_PARCEABLE") Gson gson) {
         Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(uri)
                 .client(okHttpClient)

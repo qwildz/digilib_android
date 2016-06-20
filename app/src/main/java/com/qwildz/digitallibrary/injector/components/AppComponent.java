@@ -10,11 +10,9 @@ import android.content.SharedPreferences;
 import com.qwildz.digitallibrary.MyApplication;
 import com.qwildz.digitallibrary.injector.modules.AppModule;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import rx.Scheduler;
 
 @Singleton
 @Component(modules = AppModule.class)

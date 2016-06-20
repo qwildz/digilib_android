@@ -34,8 +34,8 @@ public class AppModule {
         return application;
     }
 
-    @Singleton
     @Provides
+    @Singleton
     public SharedPreferences getAppPreferences() {
         return application.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }

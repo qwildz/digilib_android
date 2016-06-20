@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.qwildz.digitallibrary.MyApplication;
 import com.qwildz.digitallibrary.R;
+import com.qwildz.digitallibrary.adapters.RecyclerViewAdapter;
 import com.qwildz.digitallibrary.adapters.recyclerview.ListNewsAdapter;
 import com.qwildz.digitallibrary.adapters.recyclerview.ListVideoAdapter;
 import com.qwildz.digitallibrary.injector.components.DaggerInjectorComponent;
@@ -18,6 +20,7 @@ import com.qwildz.digitallibrary.models.Repository;
 import com.qwildz.digitallibrary.models.Video;
 import com.qwildz.digitallibrary.ui.AutofitRecyclerView;
 import com.qwildz.digitallibrary.ui.MarginDecoration;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ import javax.inject.Inject;
 /**
  * Created by resna on 2016-06-12.
  */
-public class ListNewsFragment extends Fragment {
+public class ListNewsFragment extends RxFragment implements RecyclerViewAdapter.ViewHolder.ViewHolderOnClickListener {
 
     AutofitRecyclerView recyclerView;
 
@@ -62,13 +65,13 @@ public class ListNewsFragment extends Fragment {
 
         injectorComponent.inject(this);
 
-        repository.getNews().subscribe(news -> {
-            dataList.addAll(news.getNews());
+        repository.getNews().compose(bindToLifecycle()).subscribe(news -> {
+            dataList.addAll(news.news());
             adapter.notifyDataSetChanged();
         });
 
         dataList = new ArrayList<>();
-        adapter = new ListNewsAdapter(getContext(), dataList);
+        adapter = new ListNewsAdapter(getContext(), dataList, this);
     }
 
     @Override
@@ -97,5 +100,11 @@ public class ListNewsFragment extends Fragment {
     public void onSaveInstanceState (Bundle outState)
     {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+        Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_LONG).show();
+
     }
 }

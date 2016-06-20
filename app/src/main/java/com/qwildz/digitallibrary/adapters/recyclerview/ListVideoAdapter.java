@@ -27,24 +27,29 @@ public class ListVideoAdapter extends RecyclerViewAdapter<Video, ListVideoAdapte
         super(mContext, list);
     }
 
+    public ListVideoAdapter(Context mContext, List<Video> list, ViewHolder.ViewHolderOnClickListener listener) {
+        super(mContext, list, listener);
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cardview_big_thumbnail, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, clickListener);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Video video = list.get(position);
-        holder.title.setText(video.getJudul());
+        holder.title.setText(video.judul());
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(video.getGambar()).into(holder.thumbnail);
+        //Glide.with(mContext).load(video.getGambar()).into(holder.thumbnail);
+        holder.thumbnail.setSrc(video.getGambar());
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerViewAdapter.ViewHolder {
         @BindView(R.id.title)
         public TextView title;
 
@@ -54,8 +59,8 @@ public class ListVideoAdapter extends RecyclerViewAdapter<Video, ListVideoAdapte
         @BindView(R.id.thumbnail)
         public AspectRatioImageView thumbnail;
 
-        public MyViewHolder(View view) {
-            super(view);
+        public MyViewHolder(View view, ViewHolder.ViewHolderOnClickListener listener) {
+            super(view, listener);
             ButterKnife.bind(this, view);
 
             description.setVisibility(View.GONE);

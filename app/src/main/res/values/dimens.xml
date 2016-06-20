@@ -29,4 +29,5 @@
 
     <dimen name="text_margin">16dp</dimen>
     <dimen name="cardview_big_description_margin_top">10dp</dimen>
+    <dimen name="navheader_picture_size">60dp</dimen>
 </resources>

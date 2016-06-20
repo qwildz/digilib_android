@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.qwildz.digitallibrary.ui.MyCollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/transparent"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:titleEnabled="false">
+
+            <FrameLayout
+                android:id="@+id/profile_container_background"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/background_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:alpha="0" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="?attr/actionBarSize"
+                    android:paddingBottom="?attr/actionBarSize">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="24dp"
+                        android:paddingBottom="24dp"
+                        android:id="@+id/profile_container">
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:paddingRight="@dimen/activity_horizontal_margin"
+
+                            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/profile_picture"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:scaleType="centerCrop"
+                                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                                android:layout_gravity="center"
+                                android:src="@android:drawable/sym_def_app_icon" />
+
+                            <TextView
+                                android:id="@+id/profile_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                                android:text="Android Studio"
+                                android:layout_gravity="center"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                            <TextView
+                                android:id="@+id/profile_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="android.studio@android.com" />
+
+                        </LinearLayout>
+
+
+
+                    </RelativeLayout>
+                </RelativeLayout>
+            </FrameLayout>
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleMarginTop="13dp">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_height="wrap_content" />
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                app:tabMode="scrollable"/>
+
+        </com.qwildz.digitallibrary.ui.MyCollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tabs_viewpager"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:clipToPadding="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</android.support.design.widget.CoordinatorLayout>

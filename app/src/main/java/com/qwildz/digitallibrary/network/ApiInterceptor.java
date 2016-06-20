@@ -1,6 +1,10 @@
 package com.qwildz.digitallibrary.network;
 
+import android.content.SharedPreferences;
+
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -12,12 +16,16 @@ import okhttp3.Response;
  */
 public class ApiInterceptor implements Interceptor {
 
-    private final String token;
-    private final String userId;
+ //   private final String token;
+   // private final String userId;
 
-    public ApiInterceptor(String token, String userId) {
-        this.token = token;
-        this.userId = userId;
+    private SharedPreferences sharedPreferences;
+
+    @Inject
+    public ApiInterceptor(SharedPreferences sharedPreferences) {
+        //this.token = token;
+        //this.userId = userId;
+        this.sharedPreferences = sharedPreferences;
     }
 
     @Override
@@ -29,8 +37,8 @@ public class ApiInterceptor implements Interceptor {
                 .host(oldRequest.url().host());
 
 
-        authorizedUrlBuilder.addQueryParameter("token", token)
-                .addQueryParameter("userid", userId);
+        authorizedUrlBuilder.addQueryParameter("token", sharedPreferences.getString("token", null))
+                .addQueryParameter("userid", sharedPreferences.getString("userid", null));
 
         Request newRequest = oldRequest.newBuilder()
                 .method(oldRequest.method(), oldRequest.body())

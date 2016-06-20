@@ -28,25 +28,30 @@ public class ListNewsAdapter extends RecyclerViewAdapter<News_, ListNewsAdapter.
         super(mContext, list);
     }
 
+    public ListNewsAdapter(Context mContext, List<News_> list, ViewHolder.ViewHolderOnClickListener listener) {
+        super(mContext, list, listener);
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cardview_big_text, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, clickListener);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         News_ news = list.get(position);
-        holder.title.setText(news.getJudul());
-        holder.description.setText(news.getIsi());
+        holder.title.setText(news.judul());
+        holder.description.setText(news.isi());
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(news.getGambar()).into(holder.thumbnail);
+        //Glide.with(mContext).load(news.getGambar()).into(holder.thumbnail);
+        holder.thumbnail.setSrc(news.getGambar());
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerViewAdapter.ViewHolder {
         @BindView(R.id.title)
         public TextView title;
 
@@ -56,8 +61,8 @@ public class ListNewsAdapter extends RecyclerViewAdapter<News_, ListNewsAdapter.
         @BindView(R.id.thumbnail)
         public AspectRatioImageView thumbnail;
 
-        public MyViewHolder(View view) {
-            super(view);
+        public MyViewHolder(View view, ViewHolderOnClickListener listener) {
+            super(view, listener);
             ButterKnife.bind(this, view);
 
             thumbnail.setAspectRatioEnabled(true);

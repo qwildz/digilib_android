@@ -1,5 +1,8 @@
 package com.qwildz.digitallibrary.injector.components;
 
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
 import com.qwildz.digitallibrary.injector.modules.NetworkModule;
 import com.qwildz.digitallibrary.injector.modules.ThreadingModule;
 import com.qwildz.digitallibrary.injector.scopes.Application;
@@ -24,9 +27,15 @@ public interface BaseComponent {
     ApiInterceptor apiInterceptor();
     HttpLoggingInterceptor httpLoggingInterceptor();
     OkHttpClient okHttpClient();
+
+    @Named("GSON_PARCEABLE")
+    Gson gsonParceable();
+
     Retrofit retrofit();
+
     ApiInterface apiInterface();
 
+    SharedPreferences sharedPreferences();
 
     @Named("ui_thread")
     Scheduler mainThread();

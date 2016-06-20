@@ -6,26 +6,27 @@ package com.qwildz.digitallibrary.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
 import com.qwildz.digitallibrary.R;
 
 /**
  * Maintains an aspect ratio based on either width or height. Disabled by default.
  */
-public class AspectRatioImageView extends ImageView {
+public class AspectRatioImageView extends ImageView implements AspectRatioView {
     // NOTE: These must be kept in sync with the AspectRatioImageView attributes in attrs.xml.
-    public static final int MEASUREMENT_WIDTH = 0;
-    public static final int MEASUREMENT_HEIGHT = 1;
-
-    private static final float DEFAULT_ASPECT_RATIO = 1f;
-    private static final boolean DEFAULT_ASPECT_RATIO_ENABLED = false;
-    private static final int DEFAULT_DOMINANT_MEASUREMENT = MEASUREMENT_WIDTH;
 
     private float aspectRatio;
     private boolean aspectRatioEnabled;
     private int dominantMeasurement;
+    private RequestListener<String, GlideDrawable> listener;
 
     public AspectRatioImageView(Context context) {
         this(context, null);
@@ -119,5 +120,17 @@ public class AspectRatioImageView extends ImageView {
         }
         this.dominantMeasurement = dominantMeasurement;
         requestLayout();
+    }
+
+    public void setSrcNoFade(String url) {
+        Glide.with(getContext()).load(url).listener(listener).placeholder(R.drawable.blank).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(this);
+    }
+
+    public void setSrc(String url) {
+        Glide.with(getContext()).load(url).listener(listener).placeholder(R.drawable.blank).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).crossFade().into(this);
+    }
+
+    public void setListener(RequestListener<String, GlideDrawable> listener) {
+        this.listener = listener;
     }
 }

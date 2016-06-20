@@ -7,4 +7,10 @@
 
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
+
+    <color name="navheader_gradient_start">#81C784</color>
+    <color name="navheader_gradient_center">#4CAF50</color>
+    <color name="navheader_gradient_end">#2E7D32</color>
+
+    <color name="transparent">#00000000</color>
 </resources>
