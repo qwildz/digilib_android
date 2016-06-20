@@ -307,8 +307,11 @@ public class BookDetailsActivity extends RxAppCompatActivity implements AppBarLa
     }
 
     private void checkDownloadStatus() {
-        long downloadId = preferences.getLong("book" + book.filebook() + "id", 0);
-        boolean downloadStatus = preferences.getBoolean("book" + book.filebook() + "status", false);
+        long downloadId = preferences.getLong("book" + book.id() + "id", 0);
+        boolean downloadStatus = preferences.getBoolean("book" + book.id() + "status", false);
+
+        Timber.d(downloadId + "");
+        Timber.d(downloadStatus + "");
 
         if(!downloadStatus && downloadId > 0) {
             listenDownload(downloadId);
@@ -326,8 +329,8 @@ public class BookDetailsActivity extends RxAppCompatActivity implements AppBarLa
             return;
         }
 
-        long downloadId = preferences.getLong("book" + book.filebook() + "id", 0);
-        boolean downloadStatus = preferences.getBoolean("book" + book.filebook() + "status", false);
+        long downloadId = preferences.getLong("book" + book.id() + "id", 0);
+        boolean downloadStatus = preferences.getBoolean("book" + book.id() + "status", false);
 
         Timber.d(downloadId + "");
         Timber.d(downloadStatus + "");
@@ -338,8 +341,8 @@ public class BookDetailsActivity extends RxAppCompatActivity implements AppBarLa
         } else if(downloadStatus && downloadId > 0 && !pdfFile.exists()) {
             // File deleted, download again
             preferences.edit()
-                    .remove("book" + book.filebook() + "id")
-                    .remove("book" + book.filebook() + "status")
+                    .remove("book" + book.id() + "id")
+                    .remove("book" + book.id() + "status")
                     .apply();
             pdfFile.delete();
             downloadPdf();
@@ -385,19 +388,21 @@ public class BookDetailsActivity extends RxAppCompatActivity implements AppBarLa
 
         long downloadId = manager.enqueue(request);
         preferences.edit()
-                .putLong("book" + book.filebook() + "id", downloadId)
-                .putBoolean("book" + book.filebook() + "status", false)
+                .putLong("book" + book.id() + "id", downloadId)
+                .putBoolean("book" + book.id() + "status", false)
                 .apply();
 
         listenDownload(downloadId);
     }
 
     private void listenDownload(long downloadId) {
+        fab.post(() -> fab.hide());
+        downloadContainer.setVisibility(View.VISIBLE);
+
         Uri downloadsContentUri = Uri.parse("content://downloads/my_downloads/" + downloadId);
         downloadsObserver = new DownloadsObserver(downloadId, new Handler());
         getContentResolver().registerContentObserver(downloadsContentUri, true, downloadsObserver);
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -425,7 +430,7 @@ public class BookDetailsActivity extends RxAppCompatActivity implements AppBarLa
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
                     if(isDownloading) {
                         BookDetailsActivity.this.getContentResolver().unregisterContentObserver(downloadsObserver);
-                        preferences.edit().putBoolean("book" + book.filebook() + "status", true).apply();
+                        preferences.edit().putBoolean("book" + book.id() + "status", true).apply();
                         fab.post(() -> fab.show());
                         downloadContainer.setVisibility(View.GONE);
                         isDownloading = false;
@@ -456,8 +461,8 @@ public class BookDetailsActivity extends RxAppCompatActivity implements AppBarLa
                 } else if(status == DownloadManager.STATUS_FAILED) {
                     BookDetailsActivity.this.getContentResolver().unregisterContentObserver(downloadsObserver);
                     preferences.edit()
-                            .remove("book" + book.filebook() + "id")
-                            .remove("book" + book.filebook() + "status")
+                            .remove("book" + book.id() + "id")
+                            .remove("book" + book.id() + "status")
                             .apply();
                     manager.remove(downloadId);
                     fab.post(() -> fab.show());
